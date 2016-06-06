@@ -1,0 +1,94 @@
+.transbox{
+	margin:30px;
+	background-color: #ffffff;
+	opacity: 0.6;
+	border-radius: 10px;
+
+}
+/*.transbox p{
+
+	margin: 55%;
+	color: #000000;
+}*/
+
+.roundCorners{
+	border-radius: 5px;
+}
+
+.logintrans{
+
+	background: rgba(255,255,255,0.3);
+	border-radius: 10px;
+}
+
+.signtrans{
+	background-color: #ffffff;
+	opacity: 0.6;
+	border-radius: 10px;
+}
+
+.details{
+	background-color: #ffffff;
+	opacity: 0.9;
+	border-radius: 10px;
+	margin-bottom: 5px;
+}
+
+.buttontrans{
+	opacity: 0.8;
+}
+
+
+
+.my-side-menu-color{
+	background-color: rgb(153, 214, 255);
+}
+
+.blk{
+	background-color: rgb(64, 64, 64);/*this is for the button*/
+}
+
+.buttonHide{
+	background-color: black;
+}
+
+.dimScreen{
+	height: 50%;
+	background-color:rgb(204, 224, 255);
+}
+
+.button-test{
+	background-color: rgb(64, 64, 64);
+    border: none;
+    color: white;
+    padding: 10px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+}
+
+.button-test:hover{
+	background-color: rgb(26, 26, 26);
+	cursor: pointer;
+}
+
+.button-sync{
+	background-color: rgb(64, 64, 64);
+    border: none;
+    color: white;
+    padding: 10px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+	margin-left: 40%;
+    width: 100%;
+}
+.button-sync:hover{
+	background-color: rgb(26, 26, 26);
+	cursor: pointer;
+}

@@ -1,0 +1,33 @@
+<ion-view title="Data Manager" id="page4" style="background-color;">
+    <ion-content padding="false" class="has-header">
+		<ion-tabs class="tabs-positive tabs-icon-top">
+
+		  <ion-tab title="Download" icon-on="ion-android-download" icon-off="ion-android-download">
+		    <!-- Tab 1 content -->
+		    <div class="list" style="padding-top:50px;padding-bottom:50px">
+              	<ul class="list">
+				    <li class="item" ng-repeat="row in downdata">#{{row.id}} - {{row.type}}</li>
+				</ul>
+			</div>
+		  </ion-tab>
+
+		  <ion-tab title="Upload" icon-on="ion-android-upload" icon-off="ion-android-upload">
+		    <!-- Tab 2 content -->
+		    <div class="list" style="padding-top:50px;padding-bottom:50px">
+			   
+              <a class="item item-icon-left" ui-sref="menu.dataManager">
+                
+                Data Manager
+              </a>
+
+              <a class="item item-icon-left item-icon-right" href="#">
+                
+                Call Ma
+                
+              </a>
+			</div>
+		  </ion-tab>
+
+		</ion-tabs>
+	</ion-content>
+</ion-view>

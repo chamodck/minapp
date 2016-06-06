@@ -1,0 +1,30 @@
+<ion-view title="Trip Information" id="page7" style="background-color:#A1D8D8;">
+    <ion-content padding="false" class="has-header">
+        <div class="spacer" style="width: 283px; height: 27px;"></div>
+        <div>
+            <p>
+                <b>Vessel Details</b>
+            </p>
+        </div>
+        <form class="list">
+            <label class="item item-input" name="inputVasselNo">
+                <input type="text" placeholder="ලියාපදිංචි අංකය​">
+            </label>
+            <label class="item item-input" name="inputIotc">
+                <input type="text" placeholder="IOTC ලියාපදිංචි අංකය​">
+            </label>
+            <label class="item item-input" name="inputRadioCall">
+                <input type="text" placeholder="ඇමතුම් සංකේතය​">
+            </label>
+            <label class="item item-select" name="selectGear">
+                <span class="input-label">ප්‍රධාන ධීවර ආම්පන්නය​</span>
+                <select>
+                    <option>HLTL</option>
+                    <option>Other</option>
+                </select>
+            </label>
+        </form>
+        <a ui-sref="menu.tripInformation" id="tripInformation2-button16" style="font-weight:600;border-radius:10px 10px 10px 10px;" class="button button-positive button-large icon ion-android-arrow-back">Back</a>
+        <a ui-sref="menu.tripInformation" id="tripInformation2-button15" style="font-weight:600;border-radius:10px 10px 10px 10px;" class="button button-positive button-large icon-right ion-android-arrow-forward">Next</a>
+    </ion-content>
+</ion-view>

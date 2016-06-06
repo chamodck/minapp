@@ -1,0 +1,45 @@
+<!--This is the login page for he app-->
+
+<ion-view title="Marine Research App" id="page5">
+<div class="bar bar-header bar-calm">
+  <h1 class="title"></h1>
+</div>
+    
+    <ion-content overflow-scroll="true" padding="true"  class="has-header">
+
+
+   <link rel="stylesheet" type="text/css" href="css/style.css"></link>
+   <div><br></div>
+   <div class="row">
+
+    <div class="col col-33 col-offset-33 row row-center"><img src="img/minicon.png"/></div><br>
+    
+    
+  </div>
+  
+    
+        
+            <form class="list" ng-submit="login(user)" >
+              <h3 style="text-align:center" class="dark ">WELCOME TO MIN</h3>
+                <br>
+                <label class="item item-input roundCorners">
+                    <input type="email" placeholder="Email" name="email" ng-model="user.email" required>
+                </label>
+                
+                <br>
+                <label class="item item-input roundCorners">
+                    <input type="password" placeholder="Password" name="password" ng-model="user.password" required>
+                </label>
+
+                <!--ui-sref="scientificObserverMenu"  meka awe redirect wenna nikanma-->
+
+                <button  id="marineResearchApp-button3" class="button  button-block button-calm " type="submit">Log In</button> 
+                <a href="#" ng-click="forgotPassword()" class="col col-50 col-offset-25">Forgot Password</a>
+            </form>
+            
+      
+    <div class="bar bar-footer bar-calm">
+      <div class="title"></div>
+    </div>
+    </ion-content>
+</ion-view>
