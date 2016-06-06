@@ -29,8 +29,42 @@ angular.module('app.routes', ['app.services'])
         controller: 'homeCtrl'
       }
     }
-  })
+
     
+  })
+    /*resolve:{
+        "check":function($location){   
+            if('Your Condition'){ 
+                //Do something
+            }else{
+                $location.path('/');    //redirect user to home.
+                alert("You don't have access here");
+            }
+        }
+    }*/
+   /* url: '/start_trip',
+    views: {
+      'side-menu21': {
+        templateUrl: 'templates/start_trip.html',
+        controller: 'startTripCtrl'
+      }
+    }*/
+    /*resolve:{
+        "check":function($location){   
+            if(window.localStorage.getItem('email')){
+              url: '/start_trip';
+                templateUrl: 'templates/start_trip.html';
+                controller: 'startTripCtrl';
+            }else{
+              url: '/start_trip';
+                templateUrl: 'templates/start_trip.html';
+                controller: 'startTripCtrl';
+                //$location.path('/');    //redirect user to home.
+                alert("You don't have access here");
+            }
+        }
+    }*/
+
   .state('starttrip', {
     url: '/start_trip',
     templateUrl: 'templates/start_trip.html',
@@ -83,16 +117,6 @@ angular.module('app.routes', ['app.services'])
       'side-menu21': {
         templateUrl: 'templates/bycatch.html',
         controller: 'bycatchCtrl'
-      }
-    }
-  })
-
-  .state('menu.test', {
-    url: '/test',
-    views: {
-      'side-menu21': {
-        templateUrl: 'templates/test.html',
-        controller: 'testCtrl'
       }
     }
   })

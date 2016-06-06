@@ -1,6 +1,6 @@
 angular.module('app.controllers', [])
   
-.controller('homeCtrl', function($scope,$rootScope,$state,$ionicHistory,$ionicPopup,$ionicHistory,$ionicLoading,$cordovaCamera) {
+.controller('homeCtrl', function($scope,$state,$ionicHistory,$ionicPopup,$ionicHistory,$ionicLoading,$cordovaSQLite) {
   
     //$ionicLoading.show({template: '<ion-spinner class="spinner-calm"></ion-spinner>',});
    $scope.finishTrip=function(){
@@ -17,83 +17,17 @@ angular.module('app.controllers', [])
             //$ionicLoading.hide();
          } 
       });
-   } 
-
-    
-})
-
-.controller('bycatchCtrl', function($scope,$cordovaCamera,$ionicPopup,$cordovaSQLite) {
-  
-  $scope.takePicture = function () {
-    var options = {
-      destinationType: Camera.DestinationType.FILE_URI,
-      sourceType: Camera.PictureSourceType.CAMERA
-    };
-
-    $cordovaCamera.getPicture(options).then(function(imageURI) {
-     var image = document.getElementById('myImage');
-      $scope.myImage = imageURI;
-
-      $cordovaSQLite.execute(db, "INSERT INTO image VALUES (null,'"+imageURI+"')");
-      //$ionicPopup.alert({title: 'Oops',template: imageURI});
-      //$scope.url=imageURI;
-      window.localStorage.setItem('url',imageURI);
-      //window.localStorage.setItem('imgurl':'imageURI');
-      //console.log(imageURI);
-    }, function(err) {
-      console.log('222222222222222222222');
-    });
-
-    //$cordovaCamera.cleanup().then();
-
-    // only for FILE_URI
-                /*var options = {
-                    quality: 75,
-                    destinationType: Camera.DestinationType.DATA_URL,
-                    sourceType: Camera.PictureSourceType.CAMERA,
-                    allowEdit: true,
-                    encodingType: Camera.EncodingType.JPEG,
-                    popoverOptions: CameraPopoverOptions,
-                    saveToPhotoAlbum: true
-                };
-  
-                    $cordovaCamera.getPicture(options).then(function (imageData) {
-                        //console.log('camera data:' + angular.tojson(data));
-                        $scope.imgURI = "data:image/jpeg;base64," + imageData;
-                        $state.go("menu.bycatch");
-                        //$scope.imagedata=imageData;
-                        //cosole.log(imageData);
-                        //$ionicPopup.alert({title: 'Oops',template:"data:image/jpeg;base64," + imageData}); 
+   }
+   
+   $scope.finishTrip=function(){
+       var query = "SELECT * FROM gear";
+                    $cordovaSQLite.execute(db, query).then(function(res) {
+                             $ionicPopup.alert({title: 'success ?',template:res.rows.length });               
                     }, function (err) {
-                        // An error occured. Show a message to the user
-                    });*/
-                }
-
-      $scope.submitByCatch=function(){
-        var a=window.localStorage.getItem('url');
-        console.log(a);
-        $ionicPopup.alert({title: 'Oops',template: a});
-      }
-     
-      $scope.choosePhoto = function () {
-                  var options = {
-                    quality: 75,
-                    destinationType: Camera.DestinationType.DATA_URL,
-                    sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-                    allowEdit: true,
-                    encodingType: Camera.EncodingType.JPEG,
-                    targetWidth: 300,
-                    targetHeight: 300,
-                    popoverOptions: CameraPopoverOptions,
-                    
-                };
-
-                    $cordovaCamera.getPicture(options).then(function (imageData) {
-                        $scope.imgURI = "data:image/jpeg;base64," + imageData;
-                    }, function (err) {
-                        // An error occured. Show a message to the user
+                        console.error(err);
                     });
-      }
+   }
+   
 })
 
 .controller('loginCtrl', function($scope, $state,$cordovaSQLite,md5,$ionicPopup,$http) {
@@ -146,7 +80,7 @@ angular.module('app.controllers', [])
     };
 })
 
-.controller('menuCtrl', function($scope,$state,$cordovaSQLite,$ionicPopup,$cordovaFileTransfer,$ionicLoading) {
+.controller('menuCtrl', function($scope,$state,$cordovaSQLite,$ionicPopup) {
     $scope.logout = function(){
       if(window.localStorage.getItem('trip')){
         $ionicPopup.alert({title: 'Logout ?',template: 'Finish current trip before logout.'}); 
@@ -159,32 +93,9 @@ angular.module('app.controllers', [])
         
     }
 
-    $scope.upload=function(){
-      $ionicLoading.show({template: '<ion-spinner class="spinner-calm"></ion-spinner>',});
-
-      $cordovaSQLite.execute(db, "SELECT * FROM image")
-      .then(function(res) {
-        var options = {
-            fileKey: "file",
-            fileName: "image.png",
-            chunkedMode: false,
-            mimeType: "image/png"
-        };
-        $ionicLoading.show({template: '<ion-spinner class="spinner-calm"></ion-spinner>',});
-        $cordovaFileTransfer.upload(encodeURI("http://minmin.esy.es/php/app/upload.php"), res.rows.item(0).url, options).then(function(result) {
-            console.log("SUCCESS: " + JSON.stringify(result.response));
-             $ionicLoading.hide();
-        }, function(err) {
-            console.log("ERROR: " + JSON.stringify(err));
-             $ionicLoading.hide();
-        }, function (progress) {
-            // constant progress updates
-        });
-
-      },function (err) {
-        console.log('eeeeeeeeeeeeee');
-      });
-    }
+    /*$scope.datamanager = function(){
+        $state.go('menu.dataManager');
+    }*/
 })
 
 .controller('dataManagerCtrl', function($scope,$cordovaSQLite) {
@@ -196,46 +107,55 @@ angular.module('app.controllers', [])
     });*/
 })
 
-.controller('vesselCtrl', function($scope,$ionicPopup) {
+.controller('vesselCtrl', function($scope,$ionicPopup,$cordovaSQLite) {
   $scope.vesselDetails =function(boat){
     $cordovaSQLite.execute(db, "SELECT * FROM boat WHERE reg_no="+boat.regno)
     .then(function(res) {
       if(res.rows.length ==1) {
         window.localStorage.setItem('boat_reg_no',boat.regno);
-        $ionicPopup.alert({title: 'Success',template: 'Boat found'});
       }else{
         $ionicPopup.alert({title: 'Oops',template: 'Invalid Boat reg no,Try again.'});
       }
     },function (err) {
       console.log('eeeeeeeeeeeeee');
     });
+
   }
 })
 
-.controller('testCtrl', function($scope,$ionicPopup,$cordovaSQLite) {
-   $cordovaSQLite.execute(db, "SELECT * FROM image")
-    .then(function(res) {
-      document.getElementById('testImage').src=res.rows.item(0).url;
 
-      console.log(res.rows.length+" "+res.rows.item(0).url);
-      $ionicPopup.alert({title: 'Oops',template:res.rows.item(0).id+" "+res.rows.item(0).url});
-      
-    },function (err) {
-      console.log('eeeeeeeeeeeeee');
+.controller('gearCtrl', function($scope,$cordovaSQLite,$ionicPopup) {
+$scope.gear = function(gearDetails){
+    var query_gear = "INSERT INTO gear VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    $cordovaSQLite.execute(db,query_gear,
+    [gearDetails.type,gearDetails.mainlinemeterial,gearDetails.mainlinelength,gearDetails.floatlinelength,gearDetails.branchlinelength,gearDetails.hooksbetweenboys,gearDetails.typeofhooks,gearDetails.torilinelength,gearDetails.streamersperline,gearDetails.streamerstype,gearDetails.streamerslength,gearDetails.nolinecutters,gearDetails.nolinecutters,gearDetails.nodehookers])
+    .then(function(res){
+        $ionicPopup.alert({title: 'success ?',template: 'successfully added'}); 
+    }, function (err) {
+       console.log('insert error');
+       return 0;                            
     });
-})
-
-.controller('gearCtrl', function($scope) {
-
+}
 })
 
 .controller('operationCtrl', function($scope) {
-
+$scope.gear = function(gearDetails){
+    var query_operation = "INSERT INTO gear VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    $cordovaSQLite.execute(db,query_operation,
+    [operationDetails.NoDays,operationDetails.MainLine,operationDetails.BranchLength,operationDetails.SetsPerTrip,operationDetails.BaitType,operationDetails.BaitSpecies,operationDetails.BaitRatio,operationDetails.SamplingMethod,operationDetails.DyeColor,operationDetails.SpeciesCode,operationDetails.NoFish,operationDetails.Weight,operationDetails.WeightCode,operationDetails.Length,operationDetails.LengthCode])
+    .then(function(res){
+    }, function (err) {
+       console.log('insert error');
+       return 0;                            
+    });
+}
 })
+
 
 .controller('startTripCtrl', function($scope,$state,$ionicHistory) {
   //$ionicLoading.show({template: '<ion-spinner class="spinner-calm"></ion-spinner>',});
   $scope.start = function(){
+    
     window.localStorage.setItem('trip',"open");
     $state.go('menu.home');
   }

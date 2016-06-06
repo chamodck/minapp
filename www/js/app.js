@@ -34,14 +34,31 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
     
     db=$cordovaSQLite.openDB({name: "min.db",location: 1});//open sqlite db
     $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS user (id integer primary key, email text, fname text,lname text,password text,type text,contact_no text,latest_update integer)");
+
+
+      
     $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS download_log (id integer)");
     //$cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS logged_user(id integer, email text,fname text,lname text,type text,contact_no text)");
-    $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS boat(id integer primary key, reg_no integer,iotc_reg_no integer,name text,length integer,fishing_gear text,storage_capacity integer)");
-    $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS image(id integer primary key AUTOINCREMENT, url text)");
 
-    $cordovaSQLite.execute(db,"CREATE TRIGGER IF NOT EXISTS markUpdateLogOnInsertUser AFTER INSERT ON user BEGIN INSERT INTO download_log VALUES (new.latest_update);END;");
-    $cordovaSQLite.execute(db,"CREATE TRIGGER IF NOT EXISTS markUpdateLogOnUpdateUser AFTER UPDATE ON user BEGIN INSERT INTO download_log VALUES (new.latest_update);END;");
-    //$cordovaSQLite.execute(db,"CREATE TRIGGER IF NOT EXISTS markUpdateLogOnDeleteUser AFTER DELETE ON user BEGIN INSERT INTO download_log VALUES (old.latest_update);END;");
+      
+    $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS boat(id integer primary key , reg_no integer,iotc_reg_no integer,name text,length integer,fishing_gear text,storage_capacity integer)");
+      
+    $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS gear (id integer primary key AUTOINCREMENT, type text, main_mat text,main_len integer,float_line integer,branch_line integer,tot_hooks integer,hooks_boys integer,type_hooks integer,tori_len integer,streamers_per_line integer,streamers_type text,streamers_len integer,noline_cutters integer,node_hookers integer)"); 
+      
+    $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS operation (id integer primary key AUTOINCREMENT, no_of_days integer, mainline_length integer,branch_length integer,sets_per_trip integer,bait_type text,bait_species text,bait_ratio integer,sampling_method text,dye_color text,species_code text,no_fish integer,weight integer,weight_code text,legth integer,length_code text)");  
+
+
+    $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS download_log (id integer)");
+    //$cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS logged_user(id integer, email text,fname text,lname text,type text,contact_no text)");
+
+
+    $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS download_log (id integer)");
+    //$cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS logged_user(id integer, email text,fname text,lname text,type text,contact_no text)");
+
+    $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS boat(id integer primary key, reg_no integer,iotc_reg_no integer,name text,length integer,fishing_gear text,storage_capacity integer)");
+
+    $cordovaSQLite.execute(db,"CREATE TRIGGER IF NOT EXISTS markUpdateLogOnInsert AFTER INSERT ON user BEGIN INSERT INTO download_log VALUES (new.latest_update);END;");
+    $cordovaSQLite.execute(db,"CREATE TRIGGER IF NOT EXISTS markUpdateLogOnUpdate AFTER UPDATE ON user BEGIN INSERT INTO download_log VALUES (new.latest_update);END;");
     //$cordovaSQLite.execute(db, "INSERT INTO download_log (row_num) VALUES (?)", [0]);
   });
 
@@ -66,7 +83,6 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
                     $cordovaSQLite.execute(db, query).then(function(res) {
                       if(res.rows.length == 1) {
                         $cordovaSQLite.execute(db, "DELETE FROM "+array0[counter].table_name+" WHERE id="+array0[counter].rowid);
-                        $cordovaSQLite.execute(db, "INSERT INTO download_log VALUES ("+array0[counter].id+")");
                       }
                     }, function (err) {
                         console.error(err);
@@ -148,11 +164,9 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
   }
 
   window.addEventListener("online", function(e) {
-    //$ionicLoading.show({template: '<ion-spinner class="spinner-calm"></ion-spinner>',});
-    $rootScope.message="online";
-    console.log('onlineeeeeeeeeeeeeeee');
+    $ionicLoading.show({template: '<ion-spinner class="spinner-calm"></ion-spinner>',});
     downloadData();
-    //$ionicLoading.hide();
+    $ionicLoading.hide();
   }, false);    
  
   window.addEventListener("offline", function(e) {
